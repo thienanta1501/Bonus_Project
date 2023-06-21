@@ -6,6 +6,8 @@
 #include<string.h>
 using namespace std;
 
+struct Course;
+struct List_Course;
 
 struct ID_User {
 	string Social_ID;
@@ -64,6 +66,7 @@ struct Student {
 	string Gender;
 	string DateOfBirth;
 	string Social_ID;
+	//List_Course lCOfStudent;
 };
 
 struct Node_Student {
@@ -72,6 +75,7 @@ struct Node_Student {
 };
 
 struct List_Student {
+	string ClassName;
 	Node_Student* head;
 	Node_Student* tail;
 };
@@ -119,7 +123,7 @@ struct Course {
 	string DayOfWeek; //string Day[6] = {MON, TUE, WED, THU, FRI, SAT};
 	string Session; //string Session[4] = { S1 (07:30), S2 (09:30), S3 (13:30), S4 (15:30)}; 
 	List_Student ListOfStudent;
-
+	Scoreboard MarksOfClass;
 };
 
 struct Node_Course {
@@ -173,4 +177,6 @@ Node_Year* createNodeYear(List_School_Year x);
 void initListYear(List_Year& l);
 void inputListYear(List_Year& l, List_School_Year x);
 void outputListYear(List_Year l);
+
+static List_Year lAll;
 
