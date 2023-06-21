@@ -1,14 +1,5 @@
 #include "Project.h"
 
-void outputDate(Date x)
-{
-	if (x.day.length() == 1) cout << "0" << x.day << "/";
-	else cout << x.day << "/";
-	if (x.month.length() == 1) cout << "0" << x.month << "/";
-	else cout << x.month << "/";
-	cout << x.year;
-}
-
 //Function of ListID
 Node_ID* createNodeID(ID_User x)
 {
@@ -82,9 +73,7 @@ void inputOneStaff(fstream& ListStaff, Staff& x)
 	getline(ListStaff, x.First_Name, ',');
 	getline(ListStaff, x.Last_Name, ',');
 	getline(ListStaff, x.Gender, ',');
-	getline(ListStaff, x.DateOfBirth.day, '/');
-	getline(ListStaff, x.DateOfBirth.month, '/');
-	getline(ListStaff, x.DateOfBirth.year, ',');
+	getline(ListStaff, x.DateOfBirth, ',');
 	getline(ListStaff, x.Social_ID);
 }
 
@@ -96,9 +85,7 @@ void outputOneStaff(Staff x)
 	cout << "First Name: " << x.First_Name << endl;
 	cout << "Last Name: " << x.Last_Name << endl;
 	cout << "Gender: " << x.Gender << endl;
-	cout << "Date of Birth: ";
-	outputDate(x.DateOfBirth);
-	cout << endl;
+	cout << "Date of Birth: " << x.DateOfBirth << endl;
 	cout << "----------------------------------------------------------" << endl;
 }
 
@@ -154,9 +141,7 @@ void inputOneStudent(fstream& ListStudent, Student& x)
 	getline(ListStudent, x.First_Name, ',');
 	getline(ListStudent, x.Last_Name, ',');
 	getline(ListStudent, x.Gender, ',');
-	getline(ListStudent, x.DateOfBirth.day, '/');
-	getline(ListStudent, x.DateOfBirth.month, '/');
-	getline(ListStudent, x.DateOfBirth.year, ',');
+	getline(ListStudent, x.DateOfBirth, ',');
 	getline(ListStudent, x.Social_ID);
 }
 
@@ -168,9 +153,7 @@ void outputOneStudent(Student x)
 	cout << "First Name: " << x.First_Name << endl;
 	cout << "Last Name: " << x.Last_Name << endl;
 	cout << "Gender: " << x.Gender << endl;
-	cout << "Date of Birth: ";
-	outputDate(x.DateOfBirth);
-	cout << endl;
+	cout << "Date of Birth: " << x.DateOfBirth << endl;
 	cout << "----------------------------------------------------------" << endl;
 }
 
@@ -390,9 +373,7 @@ Student enterOneStudent()
 	cout << "Last Name: ";
 	cin >> x.Last_Name;
 	cout << "Date of Birth: ";
-	cin >> x.DateOfBirth.day;
-	cin >> x.DateOfBirth.month;
-	cin >> x.DateOfBirth.year;
+	cin >> x.DateOfBirth;
 	cout << "Social ID: ";
 	cin >> x.Social_ID;
 	return x;
@@ -469,21 +450,21 @@ void inputSemester(Semester& a, List_Year lAll)
 void inputCourse(Course& a)
 {
 	cout << "ENTER COURSE'S INFORMATION!" << endl;
-	cout << "COURSE ID: " << endl;
+	cout << "COURSE ID: ";
 	cin >> a.CourseID;
-	cout << "COURSE NAME: " << endl;
+	cout << "COURSE NAME: ";
 	cin >> a.CourseName;
-	cout << "CLASS NAME: " << endl;
+	cout << "CLASS NAME: ";
 	cin >> a.ClassName;
-	cout << "TEACHER NAME: " << endl;
+	cout << "TEACHER NAME: ";
 	cin >> a.TeacherName;
-	cout << "NUMBER OF CREDITS: " << endl;
+	cout << "NUMBER OF CREDITS: ";
 	cin >> a.Credits_num;
 	cin.ignore();
 	//cout << "THE MAXIMUM NUMBER OF STUDENTS IN THE COURSE: " << endl; DEFAULT: 50
-	cout << "DAY OF WEEK: " << endl;
+	cout << "DAY OF WEEK: ";
 	cin >> a.DayOfWeek;
-	cout << "THE SESSION:  " << endl;
+	cout << "THE SESSION:  ";
 	cin >> a.Session;
 }
 
@@ -558,18 +539,50 @@ void updateCourse(Semester& a, string name)
 	}
 }
 
-//void inputStudent(Student& a)
+void addStudenttoCourse(Semester& a, string name, Student extra)
+{
+	Node_Student* q = createNodeStudent(extra);
+	Node_Course* p = a.lC.head;
+	while (p != NULL)
+	{
+		if (p->course.CourseName == name) {
+			p->course.ListOfStudent.tail->next = q;
+			p->course.ListOfStudent.tail = q;
+		}
+		p = p->next;
+	}
+}
+
+//void removeStudentOfCourse(Semester& a, string name, string StudentID)
 //{
-//	cout << "ENTER THIS STUDENT'S INFORMATTION"
-//	getline(ListStudent, x.No, ',');
-//	getline(ListStudent, x.Student_ID, ',');
-//	getline(ListStudent, x.First_Name, ',');
-//	getline(ListStudent, x.Last_Name, ',');
-//	getline(ListStudent, x.Gender, ',');
-//	getline(ListStudent, x.DateOfBirth.day, '/');
-//	getline(ListStudent, x.DateOfBirth.month, '/');
-//	getline(ListStudent, x.DateOfBirth.year, ',');
-//	getline(ListStudent, x.Social_ID);
+//	Node_Course* p = a.lC.head;
+//	while (p != NULL)
+//	{
+//		if (p->course.CourseName == name) {
+//			Node_Student* q = p->course.ListOfStudent.head;
+//			while (q != NULL)
+//			{
+//				if (q->User.Student_ID == StudentID) {
+//					p->course.ListOfStudent.tail->next = q;
+//					
+//				}
+//				p = p->next;
+//			}
+//		}
+//		p = p->next;
+//	}
+//}
+
+// void deleteCourse(Semester & a, string name)
+//{
+//	Node_Course* p = a.lC.head;
+//	while (p != NULL)
+//	{
+//		if (p->course.CourseName == name) {
+//			
+//		}
+//		p = p->next;
+//	}
 //}
 
 void SEMESTER(List_Year& lAll)
@@ -596,21 +609,53 @@ void SEMESTER(List_Year& lAll)
 	cin >> updatingname;
 	updateCourse(Sdemo, updatingname);
 	cout << "11. Add a student to the course." << endl;
-	string StudentIDextra;
-	cout << "ENTER STUDENT ID OF STUDENT THAT YOU WANT TO ADD: ";
-	cin >> updatingname;
-
+	Student Sextra = enterOneStudent();
+	string addname;
+	cout << "ENTER NAME OF THE COURSE THAT YOU WANT TO ADD TO: ";
+	cin >> addname;
+	addStudenttoCourse(Sdemo, addname, Sextra);
 	cout << "12. Remove a student from the course." << endl;
+	string removename;
+	cout << "ENTER NAME OF THE COURSE THAT YOU WANT TO REMOVE A STUDENT: ";
+	cin >> removename;
+	string SIDremove;
+	cout << "ENTER STUDENT ID OF A STUDENT THAT YOU WANT TO REMOVE: ";
 
 	cout << "13. Delete a course." << endl;
+	string deletename;
+	cout << "ENTER NAME OF THE COURSE THAT YOU WANT TO DELETE: ";
+	cin >> deletename;
+}
 
-
-
-
+//In a semester, a student still can:
+void viewListCourseOfStudent()
+{
 
 
 }
 
-//In a semester, a student still can:
+//At any time, an academic staff member can:
+void viewAtAnyTime()
+{
+	cout << "15. View a list of classes." << endl;
+	//x
+	cout << "16. View a list of students in a class." << endl;
+	//x
+	cout << "17. View a list of courses." << endl;
+	//x
+	cout << "18. View a list of student in a course." << endl;
+	//x
+}
 
+//At the end of a semester, an academic staff member can:
+void endSemester()
+{
+	cout << "19. Export a list of students in a course to a CSV file." << endl;
+
+	cout << "20. Import the scoreboard of a course.";
+
+
+}
+
+//When 
 

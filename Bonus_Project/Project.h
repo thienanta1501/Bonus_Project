@@ -29,21 +29,13 @@ void inputListID(ifstream& ListID, List_ID& l);
 void outputListID(List_ID l);
 bool checkID(List_ID l, ID_User* User);
 
-struct Date {
-	string day;
-	string month;
-	string year;
-};
-
-void outputDate(Date x);
-
 struct Staff {
 	string No;
 	string Staff_ID;
 	string First_Name;
 	string Last_Name;
 	string Gender;
-	Date DateOfBirth;
+	string DateOfBirth;
 	string Social_ID;
 };
 
@@ -70,7 +62,7 @@ struct Student {
 	string First_Name;
 	string Last_Name;
 	string Gender;
-	Date DateOfBirth;
+	string DateOfBirth;
 	string Social_ID;
 };
 
@@ -97,6 +89,26 @@ Node_ID* checkListID(List_ID l, ID_User* User);
 void changePassword(ID_User* User, List_ID& l, string newPassword);
 void outputFileListID(ofstream& ListID, List_ID l);
 
+struct StudentMark {
+	string No;
+	string Student_ID;
+	string StudentFullName;
+	float TotalMark;
+	float FinalMark;
+	float MidtermMark;
+	float OtherMark;
+};
+
+struct Node_StudentMark {
+	StudentMark a;
+	Node_StudentMark* next;
+};
+
+struct Scoreboard {
+	Node_Student* head;
+	Node_Student* tail;
+};
+
 struct Course {
 	string CourseID;
 	string CourseName;
@@ -107,6 +119,7 @@ struct Course {
 	string DayOfWeek; //string Day[6] = {MON, TUE, WED, THU, FRI, SAT};
 	string Session; //string Session[4] = { S1 (07:30), S2 (09:30), S3 (13:30), S4 (15:30)}; 
 	List_Student ListOfStudent;
+
 };
 
 struct Node_Course {

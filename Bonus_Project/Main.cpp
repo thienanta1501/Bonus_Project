@@ -122,11 +122,11 @@ int main()
 		cin >> newPassword;
 		changePassword(User, lID, newPassword);
 		//outputListID(lID);
-		ofstream ListIDout;
-		ListIDout.open("ListID.csv", ios::out);
-		outputFileListID(ListIDout, lID);
-		ListIDout.close();
-		inputListID(ListIDin, lID);
+		//ofstream ListIDout;
+		//ListIDout.open("ListID.csv", ios::out);
+		//outputFileListID(ListIDout, lID);
+		//ListIDout.close();
+		//inputListID(ListIDin, lID);
 		break;
 	}
 	case 3: {
